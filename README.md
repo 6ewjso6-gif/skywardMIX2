@@ -52,12 +52,17 @@ export NDK_HOME=$HOME/Android/Sdk/ndk/29.0.14206865   # 换成你的 NDK 路径
 1. 用 `--platform 28` 编译设备端 `skyward`（Android 9 只有这些接口）；
 2. 加 `crt-static` 静态编译 `skyward-system-init`；
 3. 编译主机端打包器 `skyward-pack`；
-4. 从 MIUI 卡刷包里只读 recovery 分区那一段取出原厂镜像，再盖成 Skyward。
+4. 在原厂 recovery 上盖出 Skyward，填满 64 MiB 分区。
 
 产物在 `out/skyward-chiron.img`，脚本最后打印大小和 SHA-256。
 
-不想让脚本联网取包，就把 fastboot 包里的 `images/recovery.img` 放到
-`stock/recovery.img`，或者用 `STOCK=/path/to/recovery.img ./scripts/build.sh`。
+原厂镜像用 [chiron-v1 Release](../../releases/tag/chiron-v1) 里的
+`chiron-stock-recovery.img`，放到 `stock/recovery.img`；也可以用
+`STOCK=/path/to/recovery.img ./scripts/build.sh` 指定 fastboot 包里的
+`images/recovery.img`。
+
+> 卡刷包（`.zip`）用不了：里面没有 `payload.bin`，recovery 分区又排在
+> `system.img` 后面，打包器只处理带 payload 的完整 OTA 包。
 
 ## CI
 
