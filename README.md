@@ -59,6 +59,12 @@ export NDK_HOME=$HOME/Android/Sdk/ndk/29.0.14206865   # 换成你的 NDK 路径
 不想让脚本联网取包，就把 fastboot 包里的 `images/recovery.img` 放到
 `stock/recovery.img`，或者用 `STOCK=/path/to/recovery.img ./scripts/build.sh`。
 
+## CI
+
+`.github/workflows/build.yml` 在每次 push 时跑 clippy、测试，并用 NDK 编译设备端
+二进制，证明代码对这台机器编得过。它不产出镜像：原厂 recovery 不在这台机器的
+卡刷包 payload 里，自动取不到，镜像用 `scripts/build.sh` 在本地构建。
+
 ## 这个移植改了什么
 
 相对上游，为跑通 A-only 的老机器改了这些：
